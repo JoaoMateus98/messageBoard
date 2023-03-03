@@ -1,0 +1,27 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.messageContainerWrapper {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  .messageContainer {
+    width: 30%;
+    .message {
+      background-color: rgb(212, 212, 212);
+      padding: 1rem;
+      border: 1px solid gray;
+      border-radius: 12px;
+      text-align: end;
+      list-style-type: none;
+      margin-bottom: 1rem;
+      .name {
+        color: green;
+        font-weight: bold;
+      }
+    }
+  }
+}

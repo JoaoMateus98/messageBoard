@@ -3,3 +3,11 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+  .messageContainerWrapper 
+    .messageContainer
+      each message in messages
+        li.message
+          p.name= message.user
+          h3.text= message.text 
+          p.date= message.added
+
