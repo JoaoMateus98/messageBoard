@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    h1#newTitle New Message
+    form(action="/new", method="POST") 
+        .inputWrapper
+            .inputContainer
+                label(for="name") name
+                input(type="text", name="messageName" id="name")
+            .inputContainer
+                label(for="message") message
+                textarea#message(name="messageText", cols="25", rows="5")
+            button(type="submit") Send
