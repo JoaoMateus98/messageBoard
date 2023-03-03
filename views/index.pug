@@ -3,7 +3,7 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
-  button(onClick="window.location.href='/new';") Send Message
+  button(onClick="window.location.href='/new';") New Message
   .messageContainerWrapper 
     .messageContainer
       each message in messages
