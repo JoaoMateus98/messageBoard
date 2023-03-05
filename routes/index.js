@@ -1,49 +1,50 @@
 var express = require("express");
 var router = express.Router();
+const Message = require("../models/message");
 
-const messages = [
-  {
-    text: "Hi there!",
-    user: "Amando",
-    added: new Date().toLocaleDateString("en-us", {
+const mongoose = require("mongoose");
+mongoose.set("strictQuery", false);
+
+(async () => {
+  await mongoose.connect(process.env.DATABASE_URL);
+})().catch((err) => console.log(err));
+
+async function createMessage(req) {
+  const messageDetail = {
+    user: req.body.messageName,
+    text: req.body.messageText,
+    date: new Date().toLocaleDateString("en-us", {
       weekday: "long",
       year: "numeric",
       month: "short",
       day: "numeric",
     }),
-  },
-  {
-    text: "Hello World!",
-    user: "Charles",
-    added: new Date().toLocaleDateString("en-us", {
-      weekday: "long",
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    }),
-  },
-];
+  };
+
+  const newMessage = new Message(messageDetail);
+  await newMessage.save();
+}
+
+async function getMessages() {
+  const messages = Message.find();
+
+  return messages;
+}
 
 /* GET home page. */
-router.get("/", function (req, res) {
-  res.render("index", { title: "Mini Messaging App", messages: messages });
+router.get("/", async function (req, res) {
+  res.render("index", {
+    title: "Mini Messaging App",
+    messages: await getMessages(),
+  });
 });
 
 router.get("/new", function (req, res) {
   res.render("form");
 });
 
-router.post("/new", function (req, res) {
-  messages.push({
-    text: req.body.messageText,
-    user: req.body.messageName,
-    added: new Date().toLocaleDateString("en-us", {
-      weekday: "long",
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    }),
-  });
+router.post("/new", async function (req, res) {
+  await createMessage(req);
   res.redirect("/");
 });
 
